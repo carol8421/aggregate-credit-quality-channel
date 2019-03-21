@@ -59,6 +59,11 @@ public class RequestFilter implements Filter {
          *         CLIENT_ID 调用方注册时获得的系统分配账号ID，同时返回CLIENT_SECRET作为加密因子
          *         使用时，用户在header中封装2个参数
          *
+         *         CLIENT_ID
+         *         CLIENT_SECRET
+         *
+         *
+         *
          */
 
 
