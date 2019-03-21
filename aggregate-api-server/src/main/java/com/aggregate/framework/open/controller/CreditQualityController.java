@@ -18,7 +18,7 @@ public class CreditQualityController {
 
 
     @ApiOperation(value = "查询个人征信信息", httpMethod = "POST", notes = "查询个人征信信息")
-    @PostMapping(value = "/sendMessageToUser")
+    @PostMapping(value = "/personCreditQuality")
     public ResponseResult personCreditQuality(
             @ApiParam(required = true, name = "requestDto", value = "查询请求dto")
             @RequestBody @Validated final RequestDto requestDto
