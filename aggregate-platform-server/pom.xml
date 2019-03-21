@@ -10,7 +10,7 @@
 
     <parent>
 		<groupId>com.aggregate.app</groupId>
-		<artifactId>spring-boot-parent</artifactId>
+		<artifactId>spring-boot-app-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
