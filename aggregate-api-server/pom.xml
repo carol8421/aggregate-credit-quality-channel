@@ -44,6 +44,18 @@
             <artifactId>spring-boot-domain-starter</artifactId>
             <version>${aggregate.domain.version}</version>
         </dependency>
+        <!--hystrix-->
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-metrics-event-stream</artifactId>
+            <version>1.5.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-javanica</artifactId>
+            <version>1.5.12</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>

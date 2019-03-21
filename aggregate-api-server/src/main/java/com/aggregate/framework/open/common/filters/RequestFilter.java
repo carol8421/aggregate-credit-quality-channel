@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Order(9)
-@WebFilter(filterName="RequestFilter",urlPatterns={"/sendMessageToUser"})
+@WebFilter(filterName="RequestFilter",urlPatterns={"/open/api/*"})
 @Slf4j
 public class RequestFilter implements Filter {
 
@@ -51,23 +51,24 @@ public class RequestFilter implements Filter {
      * @param headerMap
      * @return
      */
-    private boolean checkHeaderSecurityKey(Map<String,String> headerMap){
+    private Boolean checkHeaderSecurityKey(Map<String,String> headerMap){
         String securityKey = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_ID);
         String securityEncodeKey = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_SECRET);
 
+
+        //TODO
         /**
          *         CLIENT_ID 调用方注册时获得的系统分配账号ID，同时返回CLIENT_SECRET作为加密因子
          *         使用时，用户在header中封装2个参数
          *
          *         CLIENT_ID
          *         CLIENT_SECRET
-         *
-         *
-         *
          */
 
-
-        return false;
+        if(StringUtils.equals("client_id",securityKey) && StringUtils.equals("client_secret",securityEncodeKey)){
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
 
