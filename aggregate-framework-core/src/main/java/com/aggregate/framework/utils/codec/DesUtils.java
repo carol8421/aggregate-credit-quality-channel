@@ -1043,4 +1043,14 @@ public class DesUtils {
 			return keys;
 		}
 	}
+
+	public static void main(String[] args) {
+		String encodeStr = DesUtils.encode("aggregate_galaxy_secret","test");
+		System.out.println("encodeStr is :\n ");
+		System.out.println(encodeStr + "\n ");
+
+		String decodeStr = DesUtils.decode(encodeStr,"test");
+		System.out.println("decodeStr is :\n ");
+		System.out.println(decodeStr + "\n ");
+	}
 }

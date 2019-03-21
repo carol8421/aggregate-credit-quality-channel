@@ -59,5 +59,16 @@ public class Md5Utils {
 	public static byte[] md5(InputStream input) throws IOException {
 		return DigestUtils.digest(input, MD5);
 	}
-	
+
+
+	public static void main(String[] args) {
+		String str1=Md5Utils.md5("test");
+		String str2=Md5Utils.md5("test");
+
+		System.out.println("str1;\n");
+		System.out.println(str1);
+
+		System.out.println("str2;\n");
+		System.out.println(str2);
+	}
 }
