@@ -3,6 +3,7 @@ package com.aggregate.framework.web.common;
 
 import com.aggregate.framework.entity.ResponseResult;
 import com.aggregate.framework.exception.CoreExceptionCodes;
+import com.netflix.hystrix.exception.HystrixRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -24,6 +25,20 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+	/**
+	 * 其他异常信息处理
+	 * @param exption exption
+	 * @return ResponseResult
+	 */
+	@ExceptionHandler(HystrixRuntimeException.class)
+	@ResponseBody
+	public ResponseResult globalException(HystrixRuntimeException exption) {
+		log.error(exption.getMessage(),exption);
+		ResponseResult<Object> error = new ResponseResult<>();
+		error.setMeta(CoreExceptionCodes.REQUEST_ERROR);
+		error.setData(CoreExceptionCodes.REQUEST_ERROR.getMessage());
+		return error;
+	}
 
 	/**
 	 * 其他异常信息处理

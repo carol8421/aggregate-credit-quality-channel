@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 public class TestDemo {
     public void sendRequest(){
 
-        int advertCount = 5;
+        int advertCount = 1000;
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
 

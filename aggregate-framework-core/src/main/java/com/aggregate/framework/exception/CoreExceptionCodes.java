@@ -26,9 +26,9 @@ public class CoreExceptionCodes implements Serializable{
     public static final CodeMessage UNKNOWN_ERROR = new CodeMessage(999999, "系统异常");
 
     /**
-     * 前端请求异常
+     * api并发过大异常
      */
-    public static final CodeMessage REQUEST_ERROR = new CodeMessage(1000000, "系统请求异常");
+    public static final CodeMessage REQUEST_ERROR = new CodeMessage(403, "接口访问量过大，请稍后再试");
 
     /**
      * 参数为空 10001
