@@ -6,6 +6,7 @@ import com.aggregate.framework.email.config.EmailConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -28,24 +29,15 @@ public class MailService {
      * 邮件服务器登录验证
      */
     private transient MailAuthenticator authenticator;
-
     /**
      * 邮箱session
      */
     private transient Session session;
 
-
     @Autowired
     private EmailConfig emailConfig;
 
-
-    /**
-     * 初始化邮件发送器
-     */
-    public MailService() {
-        init();
-    }
-
+    @PostConstruct
     private void init() {
         // 初始化props
         props.setProperty("mail.transport.protocol", emailConfig.getProtocol());
@@ -147,7 +139,5 @@ public class MailService {
     public void send(List<String> recipients, SimpleMail mail) throws AddressException, MessagingException {
         send(recipients, mail.getSubject(), mail.getContent());
     }
-
-
 
 }
