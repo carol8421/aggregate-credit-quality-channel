@@ -1,4 +1,4 @@
-package com.aggregate.framework.open.dto;
+package com.aggregate.framework.open.bean.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestDto extends BaseDto {
+public class RequestDto extends BaseDto{
 
     @ApiModelProperty(value = "签名")
     @NotBlank(message = "签名不能为空")

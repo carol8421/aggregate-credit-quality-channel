@@ -44,7 +44,11 @@
             <artifactId>spring-boot-domain-starter</artifactId>
             <version>${aggregate.domain.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6</version>
+        </dependency>
         <!--gboss-->
         <dependency>
             <groupId>com.gboss.common</groupId>

@@ -1,4 +1,4 @@
-package com.aggregate.framework.open.dto;
+package com.aggregate.framework.open.bean.dto;
 
 import java.io.Serializable;
 

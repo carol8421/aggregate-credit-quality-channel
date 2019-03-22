@@ -1,20 +1,15 @@
 package com.aggregate.framework.open.controller;
 
 import com.aggregate.framework.entity.ResponseResult;
-import com.aggregate.framework.open.dto.RequestDto;
+import com.aggregate.framework.open.bean.dto.RequestDto;
 import com.aggregate.framework.web.common.WebResCallback;
 import com.aggregate.framework.web.common.WebResCriteria;
-import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/open/api")
