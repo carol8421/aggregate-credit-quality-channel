@@ -1,7 +1,8 @@
-package com.aggregate.framework.open;
+package com.aggregate.framework.open.service;
 
 import com.aggregate.framework.gzt.adapter.GuoZhenAdapter;
 import com.aggregate.framework.open.adapter.CreditQualityAdapter;
+import com.aggregate.framework.open.annotations.CreditQuality;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreditQualityService{
 
+    @CreditQuality
     public DataResponseVO queryCreditQuality(CreditQualityDto creditQualityDto){
         return processLogin(creditQualityDto, GuoZhenAdapter .class);
     }
