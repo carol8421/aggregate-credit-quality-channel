@@ -1,6 +1,7 @@
 package com.aggregate.framework.open.controller;
 
 import com.aggregate.framework.entity.ResponseResult;
+import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
 import com.aggregate.framework.open.service.CreditQualityService;
 import com.aggregate.framework.web.common.WebResCallback;
@@ -13,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/open/api")
 @Slf4j
-public class CreditQualityController {
+public class CreditQualityController extends BaseController{
 
     @Autowired
     CreditQualityService creditQualityService;
@@ -30,13 +33,15 @@ public class CreditQualityController {
                     @HystrixProperty(name = "coreSize", value = "50")
             })
     public ResponseResult personCreditQuality(
+            final HttpServletRequest request,
             @ApiParam(required = true, name = "requestDto", value = "查询请求dto")
             @RequestBody @Validated final RequestDto requestDto
     ) {
         return new WebResCallback() {
             @Override
             public void execute(WebResCriteria criteria, Object... params) {
-                criteria.addSingleResult(creditQualityService.queryCreditQuality(null));
+                CreditQualityDto creditQualityDto = convert2CreditQualityDto(request,requestDto);
+                criteria.addSingleResult(creditQualityService.queryCreditQuality(creditQualityDto));
             }
         }.sendRequest(requestDto);
 
