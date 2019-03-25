@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @Slf4j
 @SpringBootApplication
-@ServletComponentScan
+//@ServletComponentScan
 public class AggregateAPIApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = new SpringApplicationBuilder()

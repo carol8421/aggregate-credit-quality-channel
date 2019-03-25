@@ -4,12 +4,7 @@ import com.aggregate.framework.entity.CodeMessage;
 
 import java.util.Map;
 
-/**
- * @author 601099
- *         Copyright: Copyright (c) 2017/9/19
- * @version [1.0.0, 2017/9/19 15:16]
- *          Company: 北京通项目组
- */
+
 public class BusinessException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

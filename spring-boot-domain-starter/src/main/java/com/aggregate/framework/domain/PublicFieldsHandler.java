@@ -11,6 +11,7 @@ public class PublicFieldsHandler extends MetaObjectHandler {
 		long time = System.currentTimeMillis();
 		setFieldValByName("createTime", time, metaObject);
 		setFieldValByName("updateTime", time, metaObject);
+		setFieldValByName("delete_flag", 0, metaObject);
 	}
 
 	@Override

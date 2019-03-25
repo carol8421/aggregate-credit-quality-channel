@@ -30,12 +30,14 @@ public class CreditQualityAspect {
      *  在mongoDB缓存中查询是否存在对应数据，如果有直接返回
      */
     @Around("creditQualityAspect()")
-    public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            joinPoint.proceed();
+            return joinPoint.proceed();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
     /**

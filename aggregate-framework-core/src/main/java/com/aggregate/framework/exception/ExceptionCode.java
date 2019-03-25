@@ -34,49 +34,12 @@ public class ExceptionCode {
     public static final CodeMessage PARAM_IS_ILLEGAL = new CodeMessage(101001, "参数非法");
     public static final CodeMessage PARAM_CODE_EMPTY = new CodeMessage(101002, "code参数为空");
 
-    /**
-     * session, code 相关
-     */
-    public static final CodeMessage SESSION_IS_FAIL = new CodeMessage(200001, "获取会话失败");
-
-    public static final CodeMessage TOKEN_EXPIRE = new CodeMessage(200002, "用户会话参数已过期");
-
-    public static final CodeMessage TOON_CODE_EXPIRE = new CodeMessage(200003, "toonCode已过期");
-
-    public static final CodeMessage LOGIN_TOO_MANY = new CodeMessage(200004, "登录过于频繁，请稍后尝试");
-
-    public static final CodeMessage NO_PERSSION = new CodeMessage(200005, "sorry,您没有权限");
 
     /**
-     * uias 异常
+     * 签名校验
      */
-    public static final CodeMessage UIAS_IS_FAIL = new CodeMessage(300001, "UIAS请求异常");
-    public static final CodeMessage UIAS_ACCESSTOKEN_FAIL = new CodeMessage(300002, "请求accessToken异常");
-    public static final CodeMessage UIAS_ACCESSTOKEN_PARAM_ERROR = new CodeMessage(300003, "参数accessToken不合法");
+    public static final CodeMessage SECURITY_UNKONW = new CodeMessage(11000, "安全验证：未知错误");
+    public static final CodeMessage SECURITY_SIGN = new CodeMessage(11001, "安全验证：sign签名不匹配");
 
-
-    /**
-     * scloud 异常
-     */
-    public static final CodeMessage CLOUD_TYPE_FAIL = new CodeMessage(400001, "云储存类型不正确");
-
-
-
-    /**
-     * 支付通道异常
-     */
-    public static final CodeMessage PAY_WAY_TYPE_FAIL = new CodeMessage(500000, "支付通道设定错误");
-    /**
-     * pay 异常
-     */
-    public static final CodeMessage PAY_TYPE_FAIL = new CodeMessage(500001, "订单支付异常");
-    /**
-     * pay back notify 异常
-     */
-    public static final CodeMessage PAY_NOTIFY_FAIL = new CodeMessage(500002, "订单支付回调异常");
-    /**
-     * queryOrder 异常
-     */
-    public static final CodeMessage QUERY_ORDER_TYPE_FAIL = new CodeMessage(500003, "查询订单异常");
 
 }

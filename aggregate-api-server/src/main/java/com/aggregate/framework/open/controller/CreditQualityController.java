@@ -1,8 +1,12 @@
 package com.aggregate.framework.open.controller;
 
 import com.aggregate.framework.entity.ResponseResult;
+import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
+import com.aggregate.framework.gzt.entity.Upstream;
+import com.aggregate.framework.gzt.service.UpstreamService;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
+import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.service.CreditQualityService;
 import com.aggregate.framework.web.common.WebResCallback;
 import com.aggregate.framework.web.common.WebResCriteria;
@@ -24,6 +28,9 @@ public class CreditQualityController extends BaseController{
     @Autowired
     CreditQualityService creditQualityService;
 
+    @Autowired
+    UpstreamService upstreamService;
+
     @PostMapping(value =  "/personCreditQuality")
     @HystrixCommand(
             fallbackMethod = "personCreditQualityFallback",
@@ -41,13 +48,14 @@ public class CreditQualityController extends BaseController{
             @Override
             public void execute(WebResCriteria criteria, Object... params) {
                 CreditQualityDto creditQualityDto = convert2CreditQualityDto(request,requestDto);
-                criteria.addSingleResult(creditQualityService.queryCreditQuality(creditQualityDto));
+                DataResponseVO dataResponseVO = creditQualityService.queryCreditQuality(creditQualityDto);
+                criteria.addSingleResult(dataResponseVO);
             }
         }.sendRequest(requestDto);
 
     }
 
-    public ResponseResult personCreditQualityFallback(@RequestBody @Validated final RequestDto requestDto){
+    public ResponseResult personCreditQualityFallback(final HttpServletRequest request,@RequestBody @Validated final RequestDto requestDto){
         log.debug("降级策略");
         return ResponseResult.fail(500,"bad request");
     }

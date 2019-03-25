@@ -12,7 +12,8 @@ public class CreditQualityService{
 
     @CreditQuality
     public DataResponseVO queryCreditQuality(CreditQualityDto creditQualityDto){
-        return processLogin(creditQualityDto, GuoZhenAdapter .class);
+        DataResponseVO  responseVO= processLogin(creditQualityDto, GuoZhenAdapter .class);
+        return responseVO;
     }
 
     private DataResponseVO processLogin(CreditQualityDto creditQualityDto,Class<? extends CreditQualityAdapter> clazz){

@@ -2,6 +2,7 @@ package com.aggregate.framework.web.common;
 
 
 import com.aggregate.framework.entity.ResponseResult;
+import com.aggregate.framework.exception.BusinessException;
 import com.aggregate.framework.exception.CoreExceptionCodes;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,19 +27,35 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
 	/**
-	 * 其他异常信息处理
+	 * 限流框架报错
 	 * @param exption exption
 	 * @return ResponseResult
 	 */
 	@ExceptionHandler(HystrixRuntimeException.class)
 	@ResponseBody
-	public ResponseResult globalException(HystrixRuntimeException exption) {
+	public ResponseResult hystrixRuntimeException(HystrixRuntimeException exption) {
 		log.error(exption.getMessage(),exption);
 		ResponseResult<Object> error = new ResponseResult<>();
 		error.setMeta(CoreExceptionCodes.REQUEST_ERROR);
 		error.setData(CoreExceptionCodes.REQUEST_ERROR.getMessage());
 		return error;
 	}
+
+	/**
+	 * 业务异样
+	 * @param exption exption
+	 * @return ResponseResult
+	 */
+	@ExceptionHandler(BusinessException.class)
+	@ResponseBody
+	public ResponseResult businessException(BusinessException exption) {
+		log.error(exption.getMessage(),exption);
+		ResponseResult<Object> error = new ResponseResult<>();
+		error.setMeta(CoreExceptionCodes.REQUEST_ERROR);
+		error.setData(CoreExceptionCodes.REQUEST_ERROR.getMessage());
+		return error;
+	}
+
 
 	/**
 	 * 其他异常信息处理

@@ -8,11 +8,13 @@ import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.configuration.CreditQualityChannelConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+@Slf4j
 public class GuoZhenAdapter implements CreditQualityAdapter {
 
     CreditQualityChannelConfig.GuoZhenConfig guoZhenConfig;
@@ -22,7 +24,7 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
     public Boolean support(Object adapter) {
         if(adapter instanceof GuoZhenAdapter){
             guoZhenConfig = SpringApplicationContext.getBean(CreditQualityChannelConfig.GuoZhenConfig.class);
-            this.convert2GbossClient();
+            client = this.convert2GbossClient();
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -37,8 +39,10 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
 
         try {
             HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
+            log.debug("[GuoZhenAdapter] get HttpResponseData is : [{}]",httpData.getData());
             if (httpData.getStatus() == HttpStatus.SC_OK) {
-                return loadResponseDate(httpData.getData(),creditQualityDto);
+                DataResponseVO dataResponseVO = loadResponseDate(httpData.getData(),creditQualityDto);
+                return dataResponseVO;
             }
         } catch (Exception e) {
             e.printStackTrace();
