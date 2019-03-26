@@ -114,14 +114,4 @@ public class GuoZhenChannel {
             client = convert2GbossClient();
         }
     }
-/*    public static final GuoZhenChannel getInstance() {
-        //guoZhenConfig = SpringApplicationContext.getBean(CreditQualityChannelConfig.GuoZhenConfig.class);
-        //client = convert2GbossClient();
-        //在返回结果以前，一定会先加载内部类
-        return LazyHolder.LAZY;
-    }
-
-    private static class LazyHolder {
-        private static final GuoZhenChannel LAZY = new GuoZhenChannel();
-    }*/
 }

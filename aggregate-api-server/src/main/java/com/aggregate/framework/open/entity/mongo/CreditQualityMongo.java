@@ -14,15 +14,15 @@ public class CreditQualityMongo {
     @Id
     private String id;
 
-    @Field("name")
-    private String name;
-
-    @Field("identity_id")
-    private String identityId;
+    @Field("client_id")
+    private String clientId;
 
     @Field("quality_data")
     private String Data;
 
-    @Field("strategy")
-    private Long strategy;
+    @Field("server_name")
+    private String serverName;
+
+    @Field("date_time")
+    private Long dateTime;
 }

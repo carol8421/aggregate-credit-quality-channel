@@ -1,10 +1,9 @@
-package com.aggregate.framework.gzt.service.impl;
+package com.aggregate.framework.open.service.impl;
 
 import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
-import com.aggregate.framework.gzt.entity.Upstream;
-import com.aggregate.framework.gzt.mapper.UpstreamMapper;
-import com.aggregate.framework.gzt.service.UpstreamService;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.aggregate.framework.open.entity.mysql.Upstream;
+import com.aggregate.framework.open.mapper.mysql.UpstreamMapper;
+import com.aggregate.framework.open.service.UpstreamService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

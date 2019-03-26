@@ -1,4 +1,4 @@
-package com.aggregate.framework.gzt.service;
+package com.aggregate.framework.open.service;
 
 import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
 

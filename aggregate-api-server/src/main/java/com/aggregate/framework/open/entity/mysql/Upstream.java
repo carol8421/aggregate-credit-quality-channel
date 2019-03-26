@@ -1,4 +1,4 @@
-package com.aggregate.framework.gzt.entity;
+package com.aggregate.framework.open.entity.mysql;
 
 import com.aggregate.framework.domain.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
