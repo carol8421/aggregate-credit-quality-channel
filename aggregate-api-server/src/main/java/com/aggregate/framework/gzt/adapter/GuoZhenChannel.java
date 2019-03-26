@@ -26,7 +26,6 @@ public class GuoZhenChannel {
     CreditQualityChannelConfig.GuoZhenConfig guoZhenConfig;
     GbossClient client;
 
-
     @ServiceMethod(methodName = "queryCredit")
     public DataResponseVO queryCreditQuality(CreditQualityDto creditQualityDto) {
         initConfig ();
@@ -38,11 +37,21 @@ public class GuoZhenChannel {
                 .append(",").append(guoZhenDto.getT().getIdentityId());
 
         try {
-            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
+/*            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
             log.debug("[GuoZhenChannel] get HttpResponseData is : [{}]", httpData.getData());
             if (httpData.getStatus() == HttpStatus.SC_OK) {
                 return loadResponseDate(httpData.getData(), guoZhenDto);
-            }
+            }*/
+            DataResponseVO dataResponseVO = DataResponseVO.builder()
+                    .identityId(guoZhenDto.getT().getIdentityId())
+                    .name(guoZhenDto.getT().getName())
+                    .outerId(guoZhenDto.getOuterId())
+                    .score("0")
+                    .data("<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\r\\n<data>\\r\\n  <message>\\r\\n    <status>0</status>\\r\\n    <value>处理成功</value>\\r\\n  </message>\\r\\n  <attentionScores>\\r\\n    <attentionScore>\\r\\n      <code>1</code>\\r\\n      <message>评分成功</message>\\r\\n      <wybs>ttt111112</wybs>\\r\\n      <inputXm>马涛</inputXm>\\r\\n      <inputZjhm>610429199009085178</inputZjhm>\\r\\n      <score>0</score>\\r\\n    </attentionScore>\\r\\n  </attentionScores>\\r\\n</data>\\r\\n\\r\\n")
+                    .build();
+            return dataResponseVO;
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +82,7 @@ public class GuoZhenChannel {
     }
 
 
-    public DataResponseVO loadResponseDate(String data,GuoZhenDto<QueryCreditDto> guoZhenDto) {
+    private DataResponseVO loadResponseDate(String data,GuoZhenDto<QueryCreditDto> guoZhenDto) {
         try {
             Element doc = DocumentHelper.parseText(data).getRootElement().element("attentionScores").element("attentionScore");
             String score = doc.element("score").getData().toString();
@@ -94,10 +103,8 @@ public class GuoZhenChannel {
     }
 
 
-    private GuoZhenChannel() {
-        if (LazyHolder.LAZY != null) {
-            throw new RuntimeException("不允许创建多个实例");
-        }
+    public GuoZhenChannel() {
+
     }
 
 
@@ -107,7 +114,7 @@ public class GuoZhenChannel {
             client = convert2GbossClient();
         }
     }
-    public static final GuoZhenChannel getInstance() {
+/*    public static final GuoZhenChannel getInstance() {
         //guoZhenConfig = SpringApplicationContext.getBean(CreditQualityChannelConfig.GuoZhenConfig.class);
         //client = convert2GbossClient();
         //在返回结果以前，一定会先加载内部类
@@ -116,5 +123,5 @@ public class GuoZhenChannel {
 
     private static class LazyHolder {
         private static final GuoZhenChannel LAZY = new GuoZhenChannel();
-    }
+    }*/
 }

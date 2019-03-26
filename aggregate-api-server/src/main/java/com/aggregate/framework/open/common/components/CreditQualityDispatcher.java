@@ -7,6 +7,7 @@ import com.aggregate.framework.open.annotations.ServiceMethod;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -27,6 +28,9 @@ public class CreditQualityDispatcher {
 
     @Value("${base.root.scanPackage}")
     private String baseRootScanPackage;
+
+    @Autowired
+    ChannelProxy channelProxy;
 
     /**
      * 保存扫描的所有的类名
@@ -98,11 +102,10 @@ public class CreditQualityDispatcher {
 
                 //如果扫描到 @ServiceChannel 标签，则类为新的服务通道
                 if(clazz.isAnnotationPresent(ServiceChannel.class)){
+                    Object instance = clazz.newInstance();
                     ServiceChannel requestMapping = clazz.getAnnotation(ServiceChannel.class);
                     String channelName = requestMapping.channelName();
-
-                    Method method = clazz.getMethod("getInstance",null);
-                    ioc.put(channelName,method.invoke(clazz,null));
+                    ioc.put(channelName,instance);
                 }
             }
         }catch (Exception e){
@@ -143,9 +146,12 @@ public class CreditQualityDispatcher {
         }
 
         try {
-            Object returnValue = handler.method.invoke(handler.controller,creditQualityDto);
+            Object obj  = channelProxy.getInstance(handler.controller);
+            Object returnValue = handler.method.invoke(obj,creditQualityDto);
+
             return returnValue;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(ExceptionCode.CHANNEL_FAIL);
         }
     }
