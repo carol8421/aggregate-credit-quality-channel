@@ -10,8 +10,7 @@ import java.lang.reflect.Method;
 @Component
 public class ChannelProxy  implements MethodInterceptor {
 
-    public Object getInstance(Object obj) throws Exception{
-        //相当于Proxy，代理的工具类
+    public Object getInstance(Object obj){
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(obj.getClass());
         enhancer.setCallback(this);

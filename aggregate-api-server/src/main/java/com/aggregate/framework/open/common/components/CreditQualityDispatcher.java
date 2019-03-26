@@ -148,10 +148,8 @@ public class CreditQualityDispatcher {
         try {
             Object obj  = channelProxy.getInstance(handler.controller);
             Object returnValue = handler.method.invoke(obj,creditQualityDto);
-
             return returnValue;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new BusinessException(ExceptionCode.CHANNEL_FAIL);
         }
     }
