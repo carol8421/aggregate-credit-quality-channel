@@ -3,7 +3,7 @@ package com.aggregate.framework.open.controller;
 import com.aggregate.framework.exception.BusinessException;
 import com.aggregate.framework.exception.ExceptionCode;
 import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
-import com.aggregate.framework.gzt.service.UpstreamService;
+import com.aggregate.framework.open.service.UpstreamService;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
 import com.aggregate.framework.open.common.components.RedisHandler;
@@ -34,7 +34,7 @@ public class BaseController {
         String publicKey;
         RedisHandler redisHandler = SpringApplicationContext.getBean(RedisHandler.class);
         if(!redisHandler.hashKey(clientId, ClientConstant.PUBLIC_KEY)){
-            UpstreamService upstreamService = (UpstreamService)SpringApplicationContext.getBean(UpstreamService.class);
+            UpstreamService upstreamService = SpringApplicationContext.getBean(UpstreamService.class);
 
             UpstreamVO upstreamVO = upstreamService.selectByClientId(clientId);
             Map<String, String> map =Maps.newHashMap();

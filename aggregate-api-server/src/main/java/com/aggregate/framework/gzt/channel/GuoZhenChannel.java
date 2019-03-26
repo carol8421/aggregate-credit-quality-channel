@@ -1,8 +1,7 @@
-package com.aggregate.framework.gzt.adapter;
+package com.aggregate.framework.gzt.channel;
 
 import cn.id5.gboss.GbossClient;
 import cn.id5.gboss.GbossConfig;
-import cn.id5.gboss.http.HttpResponseData;
 import com.aggregate.framework.gzt.bean.dto.GuoZhenDto;
 import com.aggregate.framework.gzt.bean.dto.QueryCreditDto;
 import com.aggregate.framework.open.annotations.ServiceChannel;
@@ -13,11 +12,12 @@ import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.configuration.CreditQualityChannelConfig;
 import com.aggregate.framework.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
+
+import java.util.StringJoiner;
 
 @Slf4j
 @ServiceChannel(channelName = "guozhen")
@@ -31,13 +31,11 @@ public class GuoZhenChannel {
         initConfig ();
         GuoZhenDto<QueryCreditDto> guoZhenDto = convert2GuoZhenDto(creditQualityDto);
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(guoZhenDto.getOuterId())
-                .append(",").append(guoZhenDto.getT().getName())
-                .append(",").append(guoZhenDto.getT().getIdentityId());
-
+        StringJoiner sj =new StringJoiner(",", "", "");
+        sj.add(guoZhenDto.getOuterId()).add(guoZhenDto.getT().getName()).add(guoZhenDto.getT().getIdentityId());
+        log.debug("[StringJoiner] is [{}]",sj.toString());
         try {
-/*            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
+/*            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sj.toString());
             log.debug("[GuoZhenChannel] get HttpResponseData is : [{}]", httpData.getData());
             if (httpData.getStatus() == HttpStatus.SC_OK) {
                 return loadResponseDate(httpData.getData(), guoZhenDto);
@@ -114,14 +112,4 @@ public class GuoZhenChannel {
             client = convert2GbossClient();
         }
     }
-/*    public static final GuoZhenChannel getInstance() {
-        //guoZhenConfig = SpringApplicationContext.getBean(CreditQualityChannelConfig.GuoZhenConfig.class);
-        //client = convert2GbossClient();
-        //在返回结果以前，一定会先加载内部类
-        return LazyHolder.LAZY;
-    }
-
-    private static class LazyHolder {
-        private static final GuoZhenChannel LAZY = new GuoZhenChannel();
-    }*/
 }
