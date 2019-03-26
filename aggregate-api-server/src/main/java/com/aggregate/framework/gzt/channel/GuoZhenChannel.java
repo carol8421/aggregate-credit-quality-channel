@@ -1,8 +1,7 @@
-package com.aggregate.framework.gzt.adapter;
+package com.aggregate.framework.gzt.channel;
 
 import cn.id5.gboss.GbossClient;
 import cn.id5.gboss.GbossConfig;
-import cn.id5.gboss.http.HttpResponseData;
 import com.aggregate.framework.gzt.bean.dto.GuoZhenDto;
 import com.aggregate.framework.gzt.bean.dto.QueryCreditDto;
 import com.aggregate.framework.open.annotations.ServiceChannel;
@@ -13,7 +12,6 @@ import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.configuration.CreditQualityChannelConfig;
 import com.aggregate.framework.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
