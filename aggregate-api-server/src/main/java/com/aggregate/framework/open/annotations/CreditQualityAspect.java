@@ -114,14 +114,14 @@ public class CreditQualityAspect {
 
     private void saveDataIntoMongo(DataResponseVO dataResponseVO, CreditQualityDto dto) {
 
-        CreditQualityMongo creditQualityMongo = CreditQualityMongo.builder()
+/*        CreditQualityMongo creditQualityMongo = CreditQualityMongo.builder()
                 .Data(dataResponseVO.getData())
-                .identityId(dataResponseVO.getIdentityId())
+                //.identityId(dataResponseVO.getIdentityId())
                 .name(dataResponseVO.getName())
                 .strategy(1L)
                 .id(dto.getClientId() + System.currentTimeMillis())
                 .build();
 
-        creditQualityMongoDao.save(creditQualityMongo);
+        creditQualityMongoDao.save(creditQualityMongo);*/
     }
 }

@@ -26,7 +26,7 @@ public class ChannelProxy  implements MethodInterceptor {
 
         Object obj = before();
 
-        if(Objects.nonNull(obj)){
+        if(Objects.isNull(obj)){
             obj = methodProxy.invokeSuper(o,objects);
             isCallThird = Boolean.TRUE;
         }

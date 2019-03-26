@@ -17,6 +17,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
 
+import java.util.StringJoiner;
+
 @Slf4j
 @ServiceChannel(channelName = "guozhen")
 public class GuoZhenChannel {
@@ -29,13 +31,11 @@ public class GuoZhenChannel {
         initConfig ();
         GuoZhenDto<QueryCreditDto> guoZhenDto = convert2GuoZhenDto(creditQualityDto);
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(guoZhenDto.getOuterId())
-                .append(",").append(guoZhenDto.getT().getName())
-                .append(",").append(guoZhenDto.getT().getIdentityId());
-
+        StringJoiner sj =new StringJoiner(",", "", "");
+        sj.add(guoZhenDto.getOuterId()).add(guoZhenDto.getT().getName()).add(guoZhenDto.getT().getIdentityId());
+        log.debug("[StringJoiner] is [{}]",sj.toString());
         try {
-/*            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
+/*            HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sj.toString());
             log.debug("[GuoZhenChannel] get HttpResponseData is : [{}]", httpData.getData());
             if (httpData.getStatus() == HttpStatus.SC_OK) {
                 return loadResponseDate(httpData.getData(), guoZhenDto);
