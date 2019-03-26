@@ -33,4 +33,9 @@ public class DataResponseVO implements Serializable {
      * 评分结果(0-15)
      */
     private String score;
+
+    /**
+     * data
+     */
+    private String data;
 }

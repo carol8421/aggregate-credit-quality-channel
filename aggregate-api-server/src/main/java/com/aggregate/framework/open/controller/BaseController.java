@@ -11,6 +11,7 @@ import com.aggregate.framework.open.common.components.RedisHandler;
 import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.constants.ClientConstant;
 import com.aggregate.framework.open.common.constants.SecurityConstant;
+import com.aggregate.framework.open.common.enums.CreditQualityStrategy;
 import com.aggregate.framework.utils.JsonUtil;
 import com.aggregate.framework.utils.codec.Base64Utils;
 import com.aggregate.framework.utils.codec.RSAUtils;
@@ -26,8 +27,14 @@ public class BaseController {
         String clientId = request.getHeader(SecurityConstant.REQUEST_SECURITY_CLIENT_ID);
 
         String publicKey = this.loadPublicKey(clientId);
+        CreditQualityDto creditQualityDto = this.decodeSignAndDate(publicKey,requestDto);
 
-        return this.decodeSignAndDate(publicKey,requestDto);
+        //按照访问时间选择查询渠道
+        long channelNumber = System.currentTimeMillis() % CreditQualityStrategy.values().length ;
+
+        creditQualityDto.setClientId(clientId);
+        creditQualityDto.setChannelNumber(channelNumber);
+        return creditQualityDto;
     }
 
     private String loadPublicKey(String clientId){

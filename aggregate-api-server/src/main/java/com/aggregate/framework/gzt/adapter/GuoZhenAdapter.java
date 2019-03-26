@@ -31,7 +31,7 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
     }
 
     @Override
-    public DataResponseVO queryCreditQuality(CreditQualityDto creditQualityDto) {
+    public String queryCreditQuality(CreditQualityDto creditQualityDto) {
         StringBuffer sb = new StringBuffer();
         sb.append(creditQualityDto.getOuterId())
                 .append(",").append(creditQualityDto.getName())
@@ -41,8 +41,7 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
             HttpResponseData httpData = client.invokeSingle(guoZhenConfig.getProduct(), sb.toString());
             log.debug("[GuoZhenAdapter] get HttpResponseData is : [{}]",httpData.getData());
             if (httpData.getStatus() == HttpStatus.SC_OK) {
-                DataResponseVO dataResponseVO = loadResponseDate(httpData.getData(),creditQualityDto);
-                return dataResponseVO;
+                return httpData.getData();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,9 +61,10 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
         return new GbossClient(config);
     }
 
-    private DataResponseVO loadResponseDate(String httpData,CreditQualityDto creditQualityDto){
+    @Override
+    public DataResponseVO loadResponseDate(String data,CreditQualityDto creditQualityDto){
         try {
-            Element doc = DocumentHelper.parseText(httpData).getRootElement().element("attentionScores").element("attentionScore");
+            Element doc = DocumentHelper.parseText(data).getRootElement().element("attentionScores").element("attentionScore");
              String score = doc.element("score").getData().toString();
 
             DataResponseVO dataResponseVO = DataResponseVO.builder()
@@ -72,6 +72,7 @@ public class GuoZhenAdapter implements CreditQualityAdapter {
                     .name(creditQualityDto.getName())
                     .outerId(creditQualityDto.getOuterId())
                     .score(score)
+                    .data(data)
                     .build();
             return dataResponseVO;
 

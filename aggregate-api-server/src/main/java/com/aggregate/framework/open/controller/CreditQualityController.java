@@ -1,9 +1,6 @@
 package com.aggregate.framework.open.controller;
 
 import com.aggregate.framework.entity.ResponseResult;
-import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
-import com.aggregate.framework.gzt.entity.Upstream;
-import com.aggregate.framework.gzt.service.UpstreamService;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
 import com.aggregate.framework.open.bean.vo.DataResponseVO;
@@ -16,7 +13,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,9 +27,6 @@ public class CreditQualityController extends BaseController{
 
     @Autowired
     CreditQualityService creditQualityService;
-
-    @Autowired
-    UpstreamService upstreamService;
 
     @PostMapping(value =  "/personCreditQuality")
     @HystrixCommand(

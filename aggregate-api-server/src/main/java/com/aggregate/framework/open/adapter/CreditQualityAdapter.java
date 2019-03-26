@@ -7,5 +7,7 @@ public interface CreditQualityAdapter {
 
     Boolean support(Object adapter);
 
-    DataResponseVO queryCreditQuality(CreditQualityDto creditQualityDto);
+    String queryCreditQuality(CreditQualityDto creditQualityDto);
+
+    DataResponseVO loadResponseDate(String data,CreditQualityDto creditQualityDto);
 }

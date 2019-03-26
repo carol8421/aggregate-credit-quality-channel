@@ -25,4 +25,15 @@ public class CreditQualityDto extends BaseDto{
      * 身份证
      */
     private String identityId;
+
+    /**
+     * 上游ID
+     */
+    private String clientId;
+
+
+    /**
+     * 通道选择channelNumber
+     */
+    private long channelNumber;
 }
