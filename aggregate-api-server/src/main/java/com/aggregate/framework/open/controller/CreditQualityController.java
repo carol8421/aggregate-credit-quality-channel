@@ -3,8 +3,7 @@ package com.aggregate.framework.open.controller;
 import com.aggregate.framework.entity.ResponseResult;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
-import com.aggregate.framework.open.bean.vo.DataResponseVO;
-import com.aggregate.framework.open.service.CreditQualityService;
+import com.aggregate.framework.open.common.components.CreditQualityDispatcher;
 import com.aggregate.framework.web.common.WebResCallback;
 import com.aggregate.framework.web.common.WebResCriteria;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CreditQualityController extends BaseController{
 
     @Autowired
-    CreditQualityService creditQualityService;
+    CreditQualityDispatcher creditQualityDispatcher;
 
     @PostMapping(value =  "/personCreditQuality")
     @HystrixCommand(
@@ -45,8 +44,7 @@ public class CreditQualityController extends BaseController{
             @Override
             public void execute(WebResCriteria criteria, Object... params) {
                 CreditQualityDto creditQualityDto = convert2CreditQualityDto(request,requestDto);
-                DataResponseVO dataResponseVO = creditQualityService.queryCreditQuality(creditQualityDto);
-                criteria.addSingleResult(dataResponseVO);
+                criteria.addSingleResult(creditQualityDispatcher.doDispatch(creditQualityDto));
             }
         }.sendRequest(requestDto);
 

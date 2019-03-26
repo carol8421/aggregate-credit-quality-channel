@@ -4,19 +4,16 @@ import com.aggregate.framework.exception.BusinessException;
 import com.aggregate.framework.exception.ExceptionCode;
 import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
 import com.aggregate.framework.gzt.service.UpstreamService;
-import com.aggregate.framework.gzt.service.impl.UpstreamServiceImpl;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.dto.RequestDto;
 import com.aggregate.framework.open.common.components.RedisHandler;
 import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.constants.ClientConstant;
 import com.aggregate.framework.open.common.constants.SecurityConstant;
-import com.aggregate.framework.open.common.enums.CreditQualityStrategy;
 import com.aggregate.framework.utils.JsonUtil;
 import com.aggregate.framework.utils.codec.Base64Utils;
 import com.aggregate.framework.utils.codec.RSAUtils;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -28,18 +25,13 @@ public class BaseController {
 
         String publicKey = this.loadPublicKey(clientId);
         CreditQualityDto creditQualityDto = this.decodeSignAndDate(publicKey,requestDto);
-
-        //按照访问时间选择查询渠道
-        long channelNumber = System.currentTimeMillis() % CreditQualityStrategy.values().length ;
-
         creditQualityDto.setClientId(clientId);
-        creditQualityDto.setChannelNumber(channelNumber);
         return creditQualityDto;
     }
 
     private String loadPublicKey(String clientId){
 
-        String publicKey= StringUtils.EMPTY;
+        String publicKey;
         RedisHandler redisHandler = SpringApplicationContext.getBean(RedisHandler.class);
         if(!redisHandler.hashKey(clientId, ClientConstant.PUBLIC_KEY)){
             UpstreamService upstreamService = (UpstreamService)SpringApplicationContext.getBean(UpstreamService.class);
@@ -78,7 +70,7 @@ public class BaseController {
             CreditQualityDto creditQualityDto = JsonUtil.parseObject(decodedDataStr,CreditQualityDto.class);
             return creditQualityDto;
         }catch (Exception e){
-            throw new BusinessException(ExceptionCode.SECURITY_UNKONW);
+            throw new BusinessException(ExceptionCode.SECURITY_FAIL);
         }
     }
 }

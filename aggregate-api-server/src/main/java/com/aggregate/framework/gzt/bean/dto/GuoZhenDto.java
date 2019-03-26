@@ -1,15 +1,17 @@
-package com.aggregate.framework.open.bean.dto;
+package com.aggregate.framework.gzt.bean.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreditQualityDto extends BaseDto{
+public class GuoZhenDto<T> implements Serializable {
 
     /**
      * 第三方查询流水号
@@ -30,5 +32,6 @@ public class CreditQualityDto extends BaseDto{
     /**
      * 参数数据data
      */
-    private String data;
+    private T t;
+
 }

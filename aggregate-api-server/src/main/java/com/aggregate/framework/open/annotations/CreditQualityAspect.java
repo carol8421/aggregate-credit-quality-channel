@@ -3,7 +3,6 @@ package com.aggregate.framework.open.annotations;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.common.components.RedisHandler;
-import com.aggregate.framework.open.common.enums.CreditQualityStrategy;
 import com.aggregate.framework.open.entity.mongo.CreditQualityMongo;
 import com.aggregate.framework.open.mapper.mongodb.CreditQualityMongoDao;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import redis.clients.jedis.Jedis;
 
-import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
@@ -65,26 +63,26 @@ public class CreditQualityAspect {
 
     /**
      * @param joinPoint
-     * @throws Throwable
-     *  在mongoDB缓存中查询是否存在对应数据，如果有直接返回
+     * @throws Throwable 在mongoDB缓存中查询是否存在对应数据，如果有直接返回
      */
     @Around("creditQualityAspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
         //检查 mongoDB中是否已经存在
         //todo 时间检索
-        CreditQualityDto dto  = (CreditQualityDto)joinPoint.getArgs()[0];
+        CreditQualityDto dto = (CreditQualityDto) joinPoint.getArgs()[0];
         CreditQualityMongo creditQualityMongo = creditQualityMongoDao.findOne(dto.getClientId());
-        if(Objects.nonNull(creditQualityMongo)){
+        if (Objects.nonNull(creditQualityMongo)) {
             String strDate = creditQualityMongo.getData();
             //根据策略转换成DataResponseVO
-            DataResponseVO dataResponseVO = CreditQualityStrategy.getAdapter(creditQualityMongo.getStrategy()).loadResponseDate(strDate,dto);
-            return dataResponseVO;
+/*            DataResponseVO dataResponseVO = CreditQualityStrategy.getAdapter(creditQualityMongo.getStrategy()).loadResponseDate(strDate, dto);
+            return dataResponseVO;*/
+            return null;
         }
 
         try {
-            DataResponseVO dataResponseVO = (DataResponseVO)joinPoint.proceed();
-            saveDataIntoMongo(dataResponseVO,dto);
+            DataResponseVO dataResponseVO = (DataResponseVO) joinPoint.proceed();
+            saveDataIntoMongo(dataResponseVO, dto);
 
             return dataResponseVO;
         } catch (Exception e) {
@@ -94,10 +92,10 @@ public class CreditQualityAspect {
     }
 
     /**
-     *  日志记录访问查询结果
-     *  开启异步方法更新缓存数据
+     * 日志记录访问查询结果
+     * 开启异步方法更新缓存数据
      */
-    @AfterReturning(pointcut ="creditQualityAspect()",returning="returnValue")
+    @AfterReturning(pointcut = "creditQualityAspect()", returning = "returnValue")
     public void after(JoinPoint point, Object returnValue) {
         System.out.println("@AfterReturning：模拟日志记录功能...");
         System.out.println("@AfterReturning：目标方法为：" + point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
@@ -106,7 +104,7 @@ public class CreditQualityAspect {
         System.out.println("@AfterReturning：被织入的目标对象为：" + point.getTarget());
     }
 
-    private Jedis getJedis(){
+    private Jedis getJedis() {
         Field jdField = ReflectionUtils.findField(JedisConnection.class, JEDIS_STR);
         ReflectionUtils.makeAccessible(jdField);
         System.out.println(connectionFactory.getConnection());
@@ -114,13 +112,13 @@ public class CreditQualityAspect {
         return jedis;
     }
 
-    private void saveDataIntoMongo(DataResponseVO dataResponseVO,CreditQualityDto dto){
+    private void saveDataIntoMongo(DataResponseVO dataResponseVO, CreditQualityDto dto) {
 
         CreditQualityMongo creditQualityMongo = CreditQualityMongo.builder()
                 .Data(dataResponseVO.getData())
                 .identityId(dataResponseVO.getIdentityId())
                 .name(dataResponseVO.getName())
-                .strategy(Long.valueOf(dto.getChannelNumber()))
+                .strategy(1L)
                 .id(dto.getClientId() + System.currentTimeMillis())
                 .build();
 

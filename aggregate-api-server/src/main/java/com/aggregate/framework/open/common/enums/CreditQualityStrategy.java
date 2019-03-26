@@ -1,12 +1,13 @@
+/*
 package com.aggregate.framework.open.common.enums;
 
-import com.aggregate.framework.gzt.adapter.GuoZhenAdapter;
-import com.aggregate.framework.open.adapter.CreditQualityAdapter;
+import com.aggregate.framework.gzt.interfaces.GuoZhenChannel;
+import com.aggregate.framework.open.interfaces.CreditQualityAdapter;
 
 public enum CreditQualityStrategy {
 
 
-    GUO_ZHEN(0,new GuoZhenAdapter());
+    GUO_ZHEN(0,new GuoZhenChannel());
 
     private long strategyNumber;
     private CreditQualityAdapter creditQualityAdapter;
@@ -25,3 +26,4 @@ public enum CreditQualityStrategy {
         return GUO_ZHEN.creditQualityAdapter;
     }
 }
+*/
