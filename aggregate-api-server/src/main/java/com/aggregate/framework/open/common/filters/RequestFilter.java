@@ -1,14 +1,11 @@
 package com.aggregate.framework.open.common.filters;
 
-import com.aggregate.framework.gzt.bean.vo.UpstreamVO;
 import com.aggregate.framework.open.common.components.RedisHandler;
 import com.aggregate.framework.open.common.constants.ClientConstant;
 import com.aggregate.framework.open.common.constants.SecurityConstant;
-import com.aggregate.framework.open.service.UpstreamService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
@@ -35,8 +32,6 @@ public class RequestFilter implements Filter {
     @Autowired
     RedisHandler redisHandler;
 
-    @Autowired
-    UpstreamService upstreamService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
