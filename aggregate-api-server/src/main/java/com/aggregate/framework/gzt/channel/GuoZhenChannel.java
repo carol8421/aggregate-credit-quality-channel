@@ -21,7 +21,7 @@ import java.util.StringJoiner;
 
 @Slf4j
 @ServiceChannel(channelName = "guozhen")
-public class GuoZhenChannel {
+public class GuoZhenChannel{
 
     CreditQualityChannelConfig.GuoZhenConfig guoZhenConfig;
     GbossClient client;
@@ -106,7 +106,7 @@ public class GuoZhenChannel {
     }
 
 
-    private void initConfig (){
+    public void initConfig (){
         if(guoZhenConfig == null ){
             guoZhenConfig = SpringApplicationContext.getBean(CreditQualityChannelConfig.GuoZhenConfig.class);
             client = convert2GbossClient();

@@ -301,11 +301,11 @@ public class RSAUtils {
     public static void main(String[] args) {
         String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaiG4jRGFzKEPyKT/LGYO1aDvYLQqssN53jqG7RRyN2fefZZ7zuEEK10ZvKtuuBpZh8rtxYWM9JafawYnbBbVyd2SeH6AhPgS49fOhP1eNEUQ3IRZcc61GCLT7Z4GaYMWjv2Z/9nDMzqlU7z7ve63cPgmC8Ev1WnmJI1FOja+AswIDAQAB";
         String privateKey ="MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJqIbiNEYXMoQ/IpP8sZg7VoO9gtCqyw3neOobtFHI3Z959lnvO4QQrXRm8q264GlmHyu3FhYz0lp9rBidsFtXJ3ZJ4foCE+BLj186E/V40RRDchFlxzrUYItPtngZpgxaO/Zn/2cMzOqVTvPu97rdw+CYLwS/VaeYkjUU6Nr4CzAgMBAAECgYAjDaN+GHrKdm3DNpwj4+u+cKByjvUG6y/ris0g/7JUcwb6f0CpJDiMzvxJJz2hohjmqvrd4ytxqWMD+jbdGdRogd0XQlEbV2/RayhSM0p2AfCvNBRlrkx0EwsxwtMVT9zX1Iw8XfzP2124dtcDJAjFCOqt74JsK32SRnpCkZdIkQJBAN8D4BjTjQLmAV6oxBtkzilBANSdBtV3g73lumuJOfXCVvrIIfNAmPauZe/wOLwTnIdhBHuGIxCJGh9apyISPE8CQQCxY5ThN7sbAEGuwFGXlvj3iJUaBlcNc78QPO9BY4UvSh2pybZz/ylEaGPYkgMNO+5Vti/S9nUpbmxCZVRRGOhdAkEAjEKhtLuImmQSRHicLiZuSx/o58+Ctssd/lb3sh5yZ5C8p6krQRRFoA/7aLaK2C71aWepLA8nCoVP+pxHNXSGnQJAQaofPo+mz4P0zH+ctITKfLcumoemSfCC1bv4xTfV4X+KI4Pr6lyWJiCOdWj3gDqjK09ZvLpG/KNHp/xijfKucQJACXYrbzbINF+iweHPacTj7iHNJo6HET7nT+u/gzHUCtp5+TL2OJ9Vil73z3TzPa8nvdrns51piErRrke3yNhuNg==";
-        
+
         try {
 
             //私钥加密
-            String param = "{\"thirdEnum\":\"qindaorong\",\"codeToken\":\"123456789\"}";
+            String param = "{\"clientId\":\"1111\",\"data\":\"{\\\"identityId\\\":\\\"610429199009085178\\\",\\\"name\\\":\\\"马涛\\\"}\",\"outerId\":\"ttt111112\",\"serverName\":\"ant.queryCredit\"}";
             byte[] encodedData = RSAUtils.encryptByPrivateKey(param.getBytes(), privateKey);
             String encodedStr = Base64Utils.encode(encodedData);
             System.out.println("加密后：" + encodedStr);
@@ -314,7 +314,7 @@ public class RSAUtils {
             System.out.println("签名：" + sign);
 
 
-           byte[] decodeByte = Base64Utils.decode(encodedStr);
+            byte[] decodeByte = Base64Utils.decode(encodedStr);
             byte[] decodedData = RSAUtils.decryptByPublicKey(decodeByte, publicKey);
             System.out.println("解密后：" + new String(decodedData));
 
