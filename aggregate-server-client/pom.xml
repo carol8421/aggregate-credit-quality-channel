@@ -15,6 +15,8 @@
     </parent>
 
     <properties>
+        <aggregate.core.version>1.0.0</aggregate.core.version>
+
         <commons-lang3-version>3.6</commons-lang3-version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
@@ -22,10 +24,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -61,11 +59,14 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.aggregate.app</groupId>
+            <artifactId>aggregate-framework-core</artifactId>
+            <version>${aggregate.core.version}</version>
+        </dependency>
     </dependencies>
- 
-
     <build>
-        <finalName>aggregate-credit-quality-server</finalName>
+        <finalName>aggregate-credit-client</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -97,17 +98,8 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-                <excludes>
-                    <exclude>application-test.properties</exclude>
-                    <exclude>application-prod.properties</exclude>
-                    <exclude>application.properties</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
                 <includes>
-                    <include>application.properties</include>
+                    <include>aggregate-credit.propertiess</include>
                 </includes>
             </resource>
         </resources>

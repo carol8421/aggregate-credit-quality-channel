@@ -1,4 +1,4 @@
-package com.aggregate.framework.open.common.components;
+package com.aggregate.framework.web;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -59,7 +59,7 @@ public class SpringApplicationContext implements ApplicationContextAware {
     public static <T> T getBean(String name,Class<T> clazz){
         return getApplicationContext().getBean(name, clazz);
     }
-
+    
     /**
      * 获取当前环境
      * @return
