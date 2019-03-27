@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 @Data
 @Document(collection = "credit_quality")
 @Builder
@@ -24,5 +26,6 @@ public class CreditQualityMongo {
     private String serverName;
 
     @Field("date_time")
-    private Long dateTime;
+    private Date dateTime;
+
 }
