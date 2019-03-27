@@ -92,7 +92,7 @@ public class CreditQualityDispatcher {
     }
 
     private void doInstance() {
-        //初始化，为DI做准备
+        //初始化，为HandlerMapping做准备
         if(classNames.isEmpty()){return;}
 
         try {

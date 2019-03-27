@@ -1,9 +1,11 @@
 package com.aggregate.framework.open.common.filters;
 
+import com.aggregate.framework.open.common.components.RedisHandler;
+import com.aggregate.framework.open.common.constants.ClientConstant;
 import com.aggregate.framework.open.common.constants.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
@@ -26,6 +28,11 @@ public class RequestFilter implements Filter {
         log.info("RequestFilter init......");
     }
 
+
+    @Autowired
+    RedisHandler redisHandler;
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
@@ -45,32 +52,24 @@ public class RequestFilter implements Filter {
         log.info("RequestFilter destroy.....");
     }
 
-
     /**
      *
      * @param headerMap
      * @return
      */
     private Boolean checkHeaderSecurityKey(Map<String,String> headerMap){
-        String securityKey = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_ID);
-        String securityEncodeKey = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_SECRET);
+        String clientId = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_ID);
+        String clientSecret = headerMap.get(SecurityConstant.REQUEST_SECURITY_CLIENT_SECRET);
 
+        //redis 中保存的数据decodeSecret
+        String decodeSecret  = String.valueOf(redisHandler.getHashKey(clientId, ClientConstant.CLIENT_SECRET));
 
-        //TODO
-        /**
-         *         CLIENT_ID 调用方注册时获得的系统分配账号ID，同时返回CLIENT_SECRET作为加密因子
-         *         使用时，用户在header中封装2个参数
-         *
-         *         CLIENT_ID
-         *         CLIENT_SECRET
-         */
-
-        if(StringUtils.equals("client_id",securityKey) && StringUtils.equals("client_secret",securityEncodeKey)){
+        //缓存中存在上游client_id，加密后client_secret值相同
+        if(redisHandler.hashKey(clientId, ClientConstant.CLIENT_ID) && StringUtils.equals(decodeSecret,clientSecret)){
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
-
 
     /**
      * 获得用户验证信息
