@@ -15,13 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/**
- * 统一异常处理类，用于处理spring抛出的异常
- *
- * @author LuCheng.Qi
- * @since 2018-07-09
- * Company:北京思源政务通有限公司
- */
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {

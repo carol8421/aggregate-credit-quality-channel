@@ -20,7 +20,7 @@ public class CreditQualityMongo {
     private String clientId;
 
     @Field("quality_data")
-    private String Data;
+    private String qualityData;
 
     @Field("server_name")
     private String serverName;

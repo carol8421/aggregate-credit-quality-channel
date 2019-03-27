@@ -305,7 +305,7 @@ public class RSAUtils {
         try {
 
             //私钥加密
-            String param = "{\"clientId\":\"1111\",\"data\":\"{\\\"identityId\\\":\\\"610429199009085178\\\",\\\"name\\\":\\\"马涛\\\"}\",\"outerId\":\"ttt111112\",\"serverName\":\"ant.queryCredit\"}";
+            String param = "{\"clientId\":\"1111\",\"data\":\"{\\\"identityId\\\":\\\"610429199009085178\\\",\\\"name\\\":\\\"马涛\\\"}\",\"outerId\":\"ttt111112\",\"serverName\":\"guozhen.queryCredit\"}";
             byte[] encodedData = RSAUtils.encryptByPrivateKey(param.getBytes(), privateKey);
             String encodedStr = Base64Utils.encode(encodedData);
             System.out.println("加密后：" + encodedStr);

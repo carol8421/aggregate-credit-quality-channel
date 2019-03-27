@@ -2,6 +2,7 @@ package com.aggregate.framework.open.common.components;
 
 import com.aggregate.framework.exception.BusinessException;
 import com.aggregate.framework.open.bean.dto.CreditQualityDto;
+import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.entity.mongo.CreditQualityMongo;
 import com.aggregate.framework.open.exception.ExceptionChannelCode;
 import com.aggregate.framework.open.mapper.mongodb.CreditQualityMongoDao;
@@ -51,6 +52,7 @@ public class ChannelProxy  implements MethodInterceptor {
         CreditQualityDto dto =  (CreditQualityDto)objects[0];
         // 检查通道
         Object obj = before(dto);
+
         if(Objects.isNull(obj)){
             obj = methodProxy.invokeSuper(o,objects);
             isCallThird = Boolean.TRUE;
@@ -68,11 +70,8 @@ public class ChannelProxy  implements MethodInterceptor {
         if(!openFlag){
             throw new BusinessException(ExceptionChannelCode.CHANNEL_NOT_OPEN);
         }
-        Boolean reqFlag = this.checkCacheData(dto);
-        if(!reqFlag){
-            return null;
-        }
-        return null;
+        DataResponseVO dataResponse = this.checkCacheData(dto);
+        return dataResponse;
     }
 
     private void after(CreditQualityDto dto){
@@ -127,7 +126,7 @@ public class ChannelProxy  implements MethodInterceptor {
      * cache数据检查
      * @return
      */
-    public Boolean checkCacheData(CreditQualityDto dto){
+    public DataResponseVO checkCacheData(CreditQualityDto dto){
         List<CreditQualityMongo> list = null;
         try {
             list = creditQualityMongoDao.findByClientIdAndServerNameOrderByDateTimeDesc(dto.getClientId(),dto.getServerName());
@@ -139,12 +138,21 @@ public class ChannelProxy  implements MethodInterceptor {
             Date dataTime = creditQualityMongo.getDateTime();
             Long day = DateUtil.getDiffDays(new Date(),dataTime);
             if(day > 2){
-                return Boolean.FALSE;
+                return null;
             }else{
-                return Boolean.TRUE;
+                //TODO
+                DataResponseVO dataResponseVO = DataResponseVO.builder()
+                        .outerId(dto.getOuterId())
+                        .score("0")
+                        .identityId("111111111111")
+                        .data(creditQualityMongo.getQualityData())
+                        .name("name")
+                        .build();
+
+                return dataResponseVO;
             }
         }else{
-            return  Boolean.FALSE;
+            return  null;
         }
     }
 

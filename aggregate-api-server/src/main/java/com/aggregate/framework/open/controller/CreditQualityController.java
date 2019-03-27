@@ -28,13 +28,28 @@ public class CreditQualityController extends BaseController{
     CreditQualityDispatcher creditQualityDispatcher;
 
     @PostMapping(value =  "/personCreditQuality")
-    @HystrixCommand(
+/*    @HystrixCommand(
             fallbackMethod = "personCreditQualityFallback",
             groupKey = "hystrixAnnotationGroup",
             commandKey = "hystrixAnnotationSyncKey",
             threadPoolProperties={
-                    @HystrixProperty(name = "coreSize", value = "50")
-            })
+                    //核心并发线程数
+                    @HystrixProperty(name = "coreSize", value = "10")，
+                    //最大阻塞线程队列
+                    @HystrixProperty(name = "maxQueueSize", value = "2000")，
+                    //队列上限，超过会拒绝请求
+                    @HystrixProperty(name = "queueSizeRejectionThreshold", value = "30")，
+            })*/
+    @HystrixCommand(fallbackMethod = "personCreditQualityFallback", commandProperties = {
+            //接口访问最大耗时
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+            //接口最大并发量
+            @HystrixProperty(name = "execution.isolation.semaphore.maxConcurrentRequests", value = "400"),
+            //降级逻辑最大并发量
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "200"),
+            //降级策略
+            @HystrixProperty(name = "execution.isolation.strategy", value ="SEMAPHORE")
+    })
     public ResponseResult personCreditQuality(
             final HttpServletRequest request,
             @ApiParam(required = true, name = "requestDto", value = "查询请求dto")
