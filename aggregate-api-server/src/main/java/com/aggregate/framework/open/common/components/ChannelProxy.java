@@ -6,7 +6,6 @@ import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.entity.mongo.CreditQualityMongo;
 import com.aggregate.framework.open.exception.ExceptionChannelCode;
 import com.aggregate.framework.open.mapper.mongodb.CreditQualityMongoDao;
-import com.aggregate.framework.open.utils.ObjectUtils;
 import com.aggregate.framework.utils.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -87,13 +86,17 @@ public class ChannelProxy  implements MethodInterceptor {
         Double account = Double.valueOf( maps.get("account_balance").toString());
         redisHandler.increment("account_balance",account - 0.1);
         // mondo 入库
-        /*CreditQualityMongo creditQualityMongo = CreditQualityMongo.builder()
+        CreditQualityMongo creditQualityMongo = CreditQualityMongo.builder()
                 .clientId(dto.getClientId())
                 .dateTime(new Date())
                 .serverName(dto.getServerName())
-                .Data(DateUtil.getNow(DateUtil.longFormat))
+                .qualityData(DateUtil.getNow(DateUtil.longFormat))
                 .build();
-        creditQualityMongoDao.save(creditQualityMongo);*/
+        try {
+            creditQualityMongoDao.save(creditQualityMongo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -140,16 +143,13 @@ public class ChannelProxy  implements MethodInterceptor {
             if(day > 2){
                 return null;
             }else{
-                //TODO
-                DataResponseVO dataResponseVO = DataResponseVO.builder()
+               /* ResponseVO responseVO = ResponseVO.builder()
                         .outerId(dto.getOuterId())
-                        .score("0")
-                        .identityId("111111111111")
-                        .data(creditQualityMongo.getQualityData())
+                        .
                         .name("name")
                         .build();
-
-                return dataResponseVO;
+                return responseVO;*/
+               return null;
             }
         }else{
             return  null;

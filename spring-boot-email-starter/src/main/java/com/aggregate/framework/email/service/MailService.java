@@ -50,7 +50,7 @@ public class MailService {
      * @param title        邮件标题
      * @param templateName 模板名称
      */
-    public void sendMessageMail(Object params, String title, String templateName) {
+    public void sendMessageMail(Object params, String to,String title, String templateName) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);

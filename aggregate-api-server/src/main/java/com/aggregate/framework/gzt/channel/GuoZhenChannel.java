@@ -2,6 +2,8 @@ package com.aggregate.framework.gzt.channel;
 
 import cn.id5.gboss.GbossClient;
 import cn.id5.gboss.GbossConfig;
+import com.aggregate.framework.entity.CodeMessage;
+import com.aggregate.framework.exception.BusinessException;
 import com.aggregate.framework.gzt.bean.dto.GuoZhenDto;
 import com.aggregate.framework.gzt.bean.dto.QueryCreditDto;
 import com.aggregate.framework.open.annotations.ServiceChannel;
@@ -10,6 +12,7 @@ import com.aggregate.framework.open.bean.dto.CreditQualityDto;
 import com.aggregate.framework.open.bean.vo.DataResponseVO;
 import com.aggregate.framework.open.common.components.SpringApplicationContext;
 import com.aggregate.framework.open.common.configuration.CreditQualityChannelConfig;
+import com.aggregate.framework.open.entity.mongo.ThirdResponse;
 import com.aggregate.framework.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
@@ -80,19 +83,32 @@ public class GuoZhenChannel{
     }
 
 
-    private DataResponseVO loadResponseDate(String data,GuoZhenDto<QueryCreditDto> guoZhenDto) {
+    private ThirdResponse loadResponseDate(String data,GuoZhenDto<QueryCreditDto> guoZhenDto) {
         try {
             Element doc = DocumentHelper.parseText(data).getRootElement().element("attentionScores").element("attentionScore");
+            Element statusDoc = DocumentHelper.parseText(data).getRootElement().element("message");
+            Integer status = (Integer) statusDoc.element("status").getData();
+            String code =  doc.element("code").getData().toString();
+            if(!status.equals(new Integer(0))){
+                CodeMessage codeMessage = new CodeMessage();
+                codeMessage.setCode(status);
+                codeMessage.setMessage(statusDoc.element("value").getData().toString());
+                throw new BusinessException(codeMessage);
+            }
+            if(!"1".equals(code)){
+                CodeMessage codeMessage = new CodeMessage();
+                codeMessage.setCode(Integer.parseInt(code));
+                codeMessage.setMessage(statusDoc.element("message").getData().toString());
+                throw new BusinessException(codeMessage);
+            }
             String score = doc.element("score").getData().toString();
-
-            DataResponseVO dataResponseVO = DataResponseVO.builder()
+            ThirdResponse thirdResponse = ThirdResponse.builder()
                     .identityId(guoZhenDto.getT().getIdentityId())
                     .name(guoZhenDto.getT().getName())
                     .outerId(guoZhenDto.getOuterId())
                     .score(score)
-                    .data(data)
                     .build();
-            return dataResponseVO;
+            return thirdResponse;
 
         } catch (DocumentException e) {
             e.printStackTrace();
